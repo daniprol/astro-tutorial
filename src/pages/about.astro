@@ -1,0 +1,56 @@
+---
+const pageTitle = "About me";
+
+const identity = {
+    firstName: "Daniel",
+    lastName: "Prol",
+    country: "Spain",
+    ocuppation: "AI engineer",
+    hobbies: ["basketball", "programming"],
+};
+
+const skills = ["lua", "python", "astro"];
+
+const stressed = true;
+---
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <meta name="viewport" content="width=device-width" />
+        <meta name="generator" content={Astro.generator} />
+        <title>Astro</title>
+    </head>
+    <body>
+        <a href="/">Home</a>
+        <a href="/about">About</a>
+        <a href="/blog">Blog</a>
+        <h1>{pageTitle}</h1>
+        <p>
+            My name is what?, My name is who?, My name is shkhhkkk, shkkk slim {
+                identity.firstName + identity.lastName
+            }
+        </p>
+        <p>I live in {identity.country}</p>
+        {
+            identity.hobbies.length ? (
+                <p>I have hobbies</p>
+            ) : (
+                <p>I have NO hobbies</p>
+            )
+        }
+        <p>and more boring content</p>
+        {
+            skills && (
+                <ul>
+                    {skills.map((skill) => (
+                        <li>{skill}</li>
+                    ))}
+                </ul>
+            )
+        }
+
+        {stressed && <p>Yes, I am stressed out by work</p>}
+    </body>
+</html>
