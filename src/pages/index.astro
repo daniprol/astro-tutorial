@@ -1,7 +1,8 @@
 ---
+// IMPORTANT: js in frontmatter runs at BUILD TIME!
 import "../styles/global.css";
-import Navigation from "../components/Navigation.astro";
 import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
 
 const pageTitle = "Home page";
 
@@ -22,9 +23,13 @@ const titleColor = "red";
         </style>
     </head>
     <body>
-        <Navigation />
+        <Header />
         <h1>Hello</h1>
         <p>Another content</p>
         <Footer />
+        <script>
+            // This script will be sent to the client!
+            import "../scripts/menu.js";
+        </script>
     </body>
 </html>
