@@ -1,7 +1,5 @@
 ---
-import Footer from "../components/Footer.astro";
-import Header from "../components/Header.astro";
-import "../styles/global.css";
+import BaseLayout from "../layouts/BaseLayout.astro";
 
 const pageTitle = "About me";
 
@@ -22,55 +20,39 @@ const fontWeight = 700;
 const textCase = "uppercase";
 ---
 
-<html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        <meta name="viewport" content="width=device-width" />
-        <meta name="generator" content={Astro.generator} />
-        <title>Astro</title>
-        <style define:vars={{ skillColor, fontWeight, textCase }}>
-            h1 {
-                color: purple;
-                font-size: 4rem;
-                font-weight: var(--fontWeight);
-                text-transform: var(--textCase);
-            }
-
-            .skill {
-                color: var(--skillColor);
-                font-weight: bold;
-            }
-        </style>
-    </head>
-    <body>
-        <Header />
-        <h1>{pageTitle}</h1>
-        <p>
-            My name is what?, My name is who?, My name is shkhhkkk, shkkk slim {
-                identity.firstName + identity.lastName
-            }
-        </p>
-        <p>I live in {identity.country}</p>
-        {
-            identity.hobbies.length ? (
-                <p>I have hobbies</p>
-            ) : (
-                <p>I have NO hobbies</p>
-            )
-        }
-        <p>and more boring content</p>
-        {
-            skills && (
-                <ul>
-                    {skills.map((skill) => (
-                        <li class="skill">{skill}</li>
-                    ))}
-                </ul>
-            )
+<BaseLayout pageTitle={pageTitle}>
+    <!-- Use is:global to modify the style when using layouts -->
+    <style is:global define:vars={{ skillColor, fontWeight, textCase }}>
+        h1 {
+            color: purple;
+            font-size: 4rem;
+            font-weight: var(--fontWeight);
+            text-transform: var(--textCase);
         }
 
-        {stressed && <p>Yes, I am stressed out by work</p>}
-        <Footer />
-    </body>
-</html>
+        .skill {
+            color: var(--skillColor);
+            font-weight: bold;
+        }
+    </style>
+
+    <p>
+        My name is what?, My name is who?, My name is shkhhkkk, shkkk slim {
+            identity.firstName + identity.lastName
+        }
+    </p>
+    <p>I live in {identity.country}</p>
+    {identity.hobbies.length ? <p>I have hobbies</p> : <p>I have NO hobbies</p>}
+    <p>and more boring content</p>
+    {
+        skills && (
+            <ul>
+                {skills.map((skill) => (
+                    <li class="skill">{skill}</li>
+                ))}
+            </ul>
+        )
+    }
+
+    {stressed && <p>Yes, I am stressed out by work</p>}
+</BaseLayout>

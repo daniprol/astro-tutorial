@@ -1,35 +1,11 @@
 ---
+import BaseLayout from "../layouts/BaseLayout.astro";
 // IMPORTANT: js in frontmatter runs at BUILD TIME!
-import "../styles/global.css";
-import Footer from "../components/Footer.astro";
-import Header from "../components/Header.astro";
 
 const pageTitle = "Home page";
-
-const titleColor = "red";
 ---
 
-<html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        <meta name="viewport" content="width=device-width" />
-        <meta name="generator" content={Astro.generator} />
-        <title>{pageTitle}</title>
-        <style define:vars={{ titleColor }}>
-            h1 {
-                color: var(--titleColor);
-            }
-        </style>
-    </head>
-    <body>
-        <Header />
-        <h1>Hello</h1>
-        <p>Another content</p>
-        <Footer />
-        <script>
-            // This script will be sent to the client!
-            import "../scripts/menu.js";
-        </script>
-    </body>
-</html>
+<BaseLayout pageTitle={pageTitle}>
+    <h1>Hello</h1>
+    <p>Another content</p>
+</BaseLayout>

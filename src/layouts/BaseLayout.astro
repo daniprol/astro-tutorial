@@ -1,0 +1,36 @@
+---
+// IMPORTANT: js in frontmatter runs at BUILD TIME!
+import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
+import "../styles/global.css";
+
+const { pageTitle } = Astro.props;
+
+const titleColor = "red";
+---
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <meta name="viewport" content="width=device-width" />
+        <meta name="generator" content={Astro.generator} />
+        <title>{pageTitle}</title>
+        <style define:vars={{ titleColor }}>
+            h1 {
+                color: var(--titleColor);
+            }
+        </style>
+    </head>
+    <body>
+        <Header />
+        <h1>{pageTitle}</h1>
+        <!-- Slots allows you to "slot in" child content in the layout -->
+        <slot />
+        <Footer />
+        <script>
+            // This script will be sent to the client!
+            import "../scripts/menu.js";
+        </script>
+    </body>
+</html>
