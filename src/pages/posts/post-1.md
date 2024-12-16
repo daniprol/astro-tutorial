@@ -1,6 +1,7 @@
 ---
+layout: ../../layouts/MarkdownPostLayout.astro
 title: "My first blog post"
-pubDate: 2024-12-0
+pubDate: 2024-12-10
 description: "Something to talk about"
 author: "Daniel Prol Cambados"
 image:
