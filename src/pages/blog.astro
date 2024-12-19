@@ -1,16 +1,41 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import "../styles/global.css";
+import BlogPost from "../components/BlogPost.astro";
+
+// await new Promise((resolve) => setTimeout(resolve, 6000));
+const allPosts: any[] = Object.values(
+    import.meta.glob("./posts/*.md", { eager: true })
+);
+
+interface Post {
+    layout: string;
+    title: string;
+    pubDate: string;
+    description: string;
+    author: string;
+    image: {
+        url: string;
+        alt: string;
+    };
+    tags: string[];
+}
+const post: Post = allPosts[0].frontMatter;
+
+// console.log(allPosts);
+// console.log(allPosts[0].file);
+// console.log(allPosts[0].frontmatter);
+// console.log(allPosts[0].getHeadings());
 
 const pageTitle = "My astro learning blog";
 ---
 
 <BaseLayout pageTitle={pageTitle}>
-    <p>first post</p>
-    <p>second post</p>
     <ul>
-        <li><a href="/posts/post-1">Post 1</a></li>
-        <li><a href="/posts/post-2">Post 2</a></li>
-        <li><a href="/posts/post-3">Post 3</a></li>
+        {
+            allPosts.map((post) => (
+                <BlogPost url={post.url} title={post.frontmatter.title} />
+            ))
+        }
     </ul>
 </BaseLayout>
