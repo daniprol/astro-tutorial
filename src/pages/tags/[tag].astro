@@ -1,0 +1,51 @@
+---
+// NOTE: THIS NEEDS TO BE INCLUDED IN THE /pages DIRECTORY TO BE RENDERED AUTOMATICALLY
+// You can create new pages dynamically by exporting "getStaticPaths()" function
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import BlogPost from "../../components/BlogPost.astro";
+
+// export const getSomething = async () => {
+
+// }
+
+export async function getStaticPaths() {
+    const tags = [
+        "astro",
+        "successes",
+        "community",
+        "blogging",
+        "setbacks",
+        "learning in public",
+    ];
+    // Pass list of all posts as props:
+    const allPosts = Object.values(
+        import.meta.glob("../posts/*.md", { eager: true })
+    );
+    // WARNING: LOOKS LIKE import.meta.glob NEEDS TO BE EXECUTED INSIDE getStaticPaths TO WORK CORRECTLY
+    // This is because getStaticPaths executes at build time
+
+    // Notice the parentheses around the object so that it's no considered a code block
+    return tags.map((tagValue) => ({
+        params: { tag: tagValue },
+        props: { posts: allPosts },
+    }));
+}
+
+// You can access each one with /tags/[tag]
+const { tag } = Astro.params;
+const { posts } = Astro.props;
+const filteredPosts = posts.filter((post: any) =>
+    post.frontmatter.tags?.includes(tag)
+);
+---
+
+<BaseLayout pageTitle={tag}>
+    <p>Posts tagged with {tag}</p>
+    <ul>
+        {
+            filteredPosts.map((post: any) => (
+                <BlogPost url={post.url} title={post.frontmatter.title} />
+            ))
+        }
+    </ul>
+</BaseLayout>
