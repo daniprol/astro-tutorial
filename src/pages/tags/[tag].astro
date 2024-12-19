@@ -8,19 +8,20 @@ import BlogPost from "../../components/BlogPost.astro";
 
 // }
 
+// DYNAMIC ROUTING: creating multiple pages from a single Astro file
+// getStaticPaths should always return a list of objects with:
+// params: what to call each page
+// props: data to pass to those pages
 export async function getStaticPaths() {
-    const tags = [
-        "astro",
-        "successes",
-        "community",
-        "blogging",
-        "setbacks",
-        "learning in public",
-    ];
     // Pass list of all posts as props:
     const allPosts = Object.values(
         import.meta.glob("../posts/*.md", { eager: true })
     );
+    // What happens to "undefined"?
+    // const Array.from(set)
+    const tags = [
+        ...new Set(allPosts.map((post: any) => post.frontmatter.tags).flat()),
+    ];
     // WARNING: LOOKS LIKE import.meta.glob NEEDS TO BE EXECUTED INSIDE getStaticPaths TO WORK CORRECTLY
     // This is because getStaticPaths executes at build time
 
@@ -34,16 +35,16 @@ export async function getStaticPaths() {
 // You can access each one with /tags/[tag]
 const { tag } = Astro.params;
 const { posts } = Astro.props;
-const filteredPosts = posts.filter((post: any) =>
-    post.frontmatter.tags?.includes(tag)
-);
+// const filteredPosts = posts.filter((post: any) =>
+//     post.frontmatter.tags?.includes(tag)
+// );
 ---
 
 <BaseLayout pageTitle={tag}>
     <p>Posts tagged with {tag}</p>
     <ul>
         {
-            filteredPosts.map((post: any) => (
+            posts.map((post: any) => (
                 <BlogPost url={post.url} title={post.frontmatter.title} />
             ))
         }
