@@ -1,11 +1,15 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import Greeting from "../components/Greeting";
 // IMPORTANT: js in frontmatter runs at BUILD TIME!
 
 const pageTitle = "Home page";
+const messages = ["Hello", "Hola", "Ola", "Howdy"];
 ---
 
 <BaseLayout pageTitle={pageTitle}>
     <h1>Hello</h1>
+    <!-- Use client:load to make the component interactive (js), otherwise it will be static html + CSS -->
+    <Greeting client:load messages={messages} />
     <p>Another content</p>
 </BaseLayout>
