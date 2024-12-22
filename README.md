@@ -48,3 +48,9 @@ All commands are run from the root of the project, from a terminal:
 npm run astro add preact
 npx astro add preact
 ```
+
+## To upgrade
+
+```bash
+npx @astro/upgrade
+```
