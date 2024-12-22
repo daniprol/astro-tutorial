@@ -3,6 +3,7 @@
 // You can create new pages dynamically by exporting "getStaticPaths()" function
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import BlogPost from "../../components/BlogPost.astro";
+import { getCollection } from "astro:content";
 
 // export const getSomething = async () => {
 
@@ -14,22 +15,28 @@ import BlogPost from "../../components/BlogPost.astro";
 // props: data to pass to those pages
 export async function getStaticPaths() {
     // Pass list of all posts as props:
-    const allPosts = Object.values(
-        import.meta.glob("../posts/*.md", { eager: true })
-    );
+    // const allPosts = Object.values(
+    //     import.meta.glob("../posts/*.md", { eager: true })
+    // );
+    const allPosts = await getCollection("blog");
     // What happens to "undefined"?
     // const Array.from(set)
-    const tags = [
-        ...new Set(allPosts.map((post: any) => post.frontmatter.tags).flat()),
+    const uniqueTags = [
+        ...new Set(allPosts.map((post) => post.data.tags).flat()),
     ];
     // WARNING: LOOKS LIKE import.meta.glob NEEDS TO BE EXECUTED INSIDE getStaticPaths TO WORK CORRECTLY
     // This is because getStaticPaths executes at build time
 
     // Notice the parentheses around the object so that it's no considered a code block
-    return tags.map((tagValue) => ({
-        params: { tag: tagValue },
-        props: { posts: allPosts },
-    }));
+    return uniqueTags.map((tagValue) => {
+        const filteredPosts = allPosts.filter((post) =>
+            post.data.tags.include(tagValue)
+        );
+        return {
+            params: { tag: tagValue },
+            props: { posts: allPosts },
+        };
+    });
 }
 
 // You can access each one with /tags/[tag]
@@ -45,7 +52,7 @@ const { posts } = Astro.props;
     <ul>
         {
             posts.map((post: any) => (
-                <BlogPost url={post.url} title={post.frontmatter.title} />
+                <BlogPost url={`/posts/${post.id}`} title={post.data.title} />
             ))
         }
     </ul>

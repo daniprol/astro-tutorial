@@ -2,30 +2,33 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import "../styles/global.css";
 import BlogPost from "../components/BlogPost.astro";
+import { getCollection } from "astro:content";
 
 // await new Promise((resolve) => setTimeout(resolve, 6000));
-const allPosts: any[] = Object.values(
-    import.meta.glob("./posts/*.md", { eager: true })
-);
+// const allPosts: any[] = Object.values(
+//     import.meta.glob("./posts/*.md", { eager: true })
+// );
 
-interface Post {
-    layout: string;
-    title: string;
-    pubDate: string;
-    description: string;
-    author: string;
-    image: {
-        url: string;
-        alt: string;
-    };
-    tags: string[];
-}
-const post: Post = allPosts[0].frontMatter;
+// interface Post {
+//     layout: string;
+//     title: string;
+//     pubDate: string;
+//     description: string;
+//     author: string;
+//     image: {
+//         url: string;
+//         alt: string;
+//     };
+//     tags: string[];
+// }
+// const post: Post = allPosts[0].frontMatter;
 
 // console.log(allPosts);
 // console.log(allPosts[0].file);
 // console.log(allPosts[0].frontmatter);
 // console.log(allPosts[0].getHeadings());
+const allPosts = await getCollection("blog");
+// console.log(allPosts[0]);
 
 const pageTitle = "My astro learning blog";
 ---
@@ -34,7 +37,7 @@ const pageTitle = "My astro learning blog";
     <ul>
         {
             allPosts.map((post) => (
-                <BlogPost url={post.url} title={post.frontmatter.title} />
+                <BlogPost url={`/posts/${post.id}/`} title={post.data.title} />
             ))
         }
     </ul>

@@ -1,7 +1,7 @@
 ---
-layout: ../../layouts/MarkdownPostLayout.astro
+# layout: ../../layouts/MarkdownPostLayout.astro
 title: "My first blog post"
-pubDate: 2024-12-10
+pubDate: "2024-12-10"
 description: "Something to talk about"
 author: "Daniel Prol Cambados"
 image:
@@ -12,5 +12,5 @@ tags: ["prolling", "blogging"]
 
 # First blog post
 
--   Something to _say_
--   Something **more**
+- Something to _say_
+- Something **more**
